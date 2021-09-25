@@ -1,5 +1,6 @@
 import React from 'react';
 import isEmpty from 'lodash/isEmpty'
+import includes from 'lodash/includes';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -11,8 +12,8 @@ import ButtonCompo from './commonButton';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        padding: 50,
         justifyContent: 'center',
+        alignItems: 'center',
         display: 'flex',
         height: '100vh',
         backgroundColor: checked => checked ? theme.palette.primary.light : theme.palette.secondary.light ,
@@ -110,7 +111,7 @@ const Calculator = () => {
 
     const performOperation = (op) => {
         if(!isEmpty(operator)){
-            setValue(0)
+            return
         } else {
             setOperator(op)
         }
@@ -120,19 +121,24 @@ const Calculator = () => {
             if(value === 0){
                 setValue(num)
                 setFirstTerm(num)
-        } else if (num === 'dot') {
-            setValue(value + '.')
-        }
-        else {
-            setValue("" + value + num)
-            setFirstTerm("" + value + num)
-        } 
-
+            } else if (num === 'dot') {
+                if(includes(value,'.')){
+                    return
+                }
+                setValue(value + '.')
+            }
+            else {
+                setValue("" + value + num)
+                setFirstTerm("" + value + num)
+            } 
         } else {
             if(secondTerm === 0){
                 setValue(num)
                 setSecondTerm(num)
             } else if (num === 'dot') {
+                if(includes(value,'.')){
+                    return
+                }
                 setFirstTerm(value)
                 setSecondTerm("" + secondTerm + '.')
                 setValue("" + secondTerm + '.')
@@ -146,7 +152,6 @@ const Calculator = () => {
         if(!isEmpty(operator)){
             let result;
             if(operator === '+'){
-                console.log('result', firstTerm, secondTerm)
                 result = parseFloat(firstTerm)+parseFloat(secondTerm)
                 setValue(result)  
             } else if (operator === '-'){
