@@ -9,68 +9,92 @@ import useTheme from '@material-ui/core/styles/useTheme';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ButtonCompo from './commonButton';
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
-      padding: 50,
-      justifyContent: 'center',
-      display: 'flex',
-      height: '100vh',
-      backgroundColor: checked => checked ? theme.palette.primary.light : theme.palette.secondary.light ,
-      color: checked => checked ? '#ffff' : '#000000' 
+        padding: 50,
+        justifyContent: 'center',
+        display: 'flex',
+        height: '100vh',
+        backgroundColor: checked => checked ? theme.palette.primary.light : theme.palette.secondary.light ,
+        color: checked => checked ? '#ffff' : '#000000' 
     },
     textField: {
-      marginTop: 5,
-      marginBottom: 20,
-      direction: 'rtl',
-      borderRadius: 10,
-      backgroundColor: checked => checked ? theme.palette.primary.dark : theme.palette.secondary.dark,
+        marginTop: 10,
+        marginBottom: 20,
+        direction: 'rtl',
+        borderRadius: 10,
+        backgroundColor: checked => checked ? theme.palette.primary.dark : theme.palette.secondary.dark,
     },
     inputStyle: {
-      color: checked => checked ? '#ffff' : '#000000',
-      fontSize: 48
+        color: checked => checked ? '#ffff' : '#000000',
+        fontSize: 48
     },
     buttonBox: {
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: checked => checked ? theme.palette.primary.main : theme.palette.secondary.main,
-      borderRadius: 10,
-      padding: 25,
-      gap: 25,
-      [theme.breakpoints.down('sm')]: {
-        padding: 15,
-        gap: 15
-      },
+        display: 'flex',
+        flexDirection: 'column',
+        backgroundColor: checked => checked ? theme.palette.primary.main : theme.palette.secondary.main,
+        borderRadius: 10,
+        padding: 25,
+        gap: 25,
+        [theme.breakpoints.down('sm')]: {
+            padding: 15,
+            gap: 15
+        },
     },
     buttonSecondaryBox: {
-      display: 'flex', 
-      gap: 25,
-      [theme.breakpoints.down('sm')]: {
-        gap: 15
-      },
+        display: 'flex', 
+        gap: 25,
+        [theme.breakpoints.down('sm')]: {
+            gap: 15
+        },
       
     },
   
     button: {
-      width: 110,
-      height: 65,
-      borderRadius: 10,
-      boxShadow: 'inset 0px -4px 0px #3a4663',
-      '&.del': {
-        backgroundColor: '#647198'
-      },
-      '&.reset': {
-        width: 230,
-        backgroundColor: '#647198'
-      },
-      '&.equalsTo': {
-        width: 230,
-        backgroundColor: '#D03F2F'
-      },
+        width: 110,
+        height: 65,
+        borderRadius: 10,
+        boxShadow: 'inset 0px -4px 0px #3a4663',
+        '&.del': {
+            backgroundColor: '#647198'
+        },
+        '&.reset': {
+            width: 230,
+            backgroundColor: '#647198'
+        },
+        '&.equalsTo': {
+            width: 230,
+            backgroundColor: '#D03F2F'
+        },
     },
     buttonText: {
-      color: '#ffff'
-    }
+        color: '#ffff'
+    },
+    themeToggle: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    customRadioButton: {
+        width: 20,
+        height: 20,
+        border: '2px solid #444',
+        borderRadius: '50%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    checkmark: {
+        width: 'calc(100% - 6px)',
+        height: 'calc(100% - 6px)',
+        backgroundColor: 'hsl(6, 63%, 50%)',
+        borderRadius: '50%',
+        display: 'inline-block',
+        opacity: 0,
+        transition: 'opacity 0.3s ease',
+    },
+
+
   
 }))
 
@@ -102,7 +126,6 @@ const Calculator = () => {
         else {
             setValue("" + value + num)
             setFirstTerm("" + value + num)
-            console.log('result', value, ("" + value + num))
         } 
 
         } else {
@@ -153,6 +176,9 @@ const Calculator = () => {
     const handleChange = (e) => {
         setChecked(e.target.checked)
     }
+    
+    const val = value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+
     return (
         <Box className={classes.root}>
             <Box disply='flex' flexDirection='column' width={isSmallScreen ? 350 : 540}>
@@ -161,7 +187,7 @@ const Calculator = () => {
                     calc
                     </Typography>
                     <Box display='flex' flexDirection='row' alignItems='center'>
-                        <Typography variant='subtitle2'>THEME</Typography>
+                        <Typography variant='subtitle2'>Theme</Typography>
                         <Switch
                             onChange={handleChange}
                             color="primary"
@@ -169,13 +195,13 @@ const Calculator = () => {
                             inputProps={{ 'aria-label': 'primary checkbox' }}
                         />
                     </Box>
-                </Box> 
+                </Box>
                 <TextField
                     fullWidth
                     variant='outlined'
                     className={classes.textField}
                     inputProps={{className: classes.inputStyle}}
-                    value={value}
+                    value={val}
                     disabled
                 />
                 <Box className={classes.buttonBox}>
